@@ -1,0 +1,56 @@
+{
+    "name": "qdrant-labs/qdrant-laravel-scout",
+    "description": "A Qdrant driver for Laravel Scout with full-text, semantic, and hybrid search.",
+    "keywords": ["laravel", "scout", "qdrant", "search", "vector search", "semantic search", "hybrid search"],
+    "homepage": "https://github.com/qdrant-labs/qdrant-laravel-scout",
+    "license": "Apache-2.0",
+    "support": {
+        "issues": "https://github.com/qdrant-labs/qdrant-laravel-scout/issues",
+        "source": "https://github.com/qdrant-labs/qdrant-laravel-scout"
+    },
+    "authors": [
+        {
+            "name": "Qdrant Team",
+            "email": "info@qdrant.tech"
+        }
+    ],
+    "require": {
+        "php": "^8.2",
+        "illuminate/database": "^12.0|^13.0",
+        "illuminate/http": "^12.0|^13.0",
+        "illuminate/support": "^12.0|^13.0",
+        "laravel/scout": "^11.6"
+    },
+    "require-dev": {
+        "orchestra/testbench": "^10.0|^11.0",
+        "phpunit/phpunit": "^11.5|^12.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "QdrantLabs\\LaravelScout\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "QdrantLabs\\LaravelScout\\Tests\\": "tests/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "QdrantLabs\\LaravelScout\\QdrantServiceProvider"
+            ]
+        }
+    },
+    "conflict": {
+        "laravel/ai": "<1.0"
+    },
+    "suggest": {
+        "laravel/ai": "Required to generate embeddings with the default laravel-ai driver (^1.0, needs PHP 8.3)."
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "minimum-stability": "stable",
+    "prefer-stable": true
+}

@@ -1,0 +1,56 @@
+name: tests
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: true
+      matrix:
+        php: [8.2, 8.3, 8.4, 8.5]
+        laravel: [12, 13]
+        stability: [prefer-stable]
+        include:
+          - laravel: 12
+            testbench: 10
+          - laravel: 13
+            testbench: 11
+          - php: 8.2
+            laravel: 12
+            testbench: 10
+            stability: prefer-lowest
+        exclude:
+          - php: 8.2
+            laravel: 13
+
+    name: PHP ${{ matrix.php }} - Laravel ${{ matrix.laravel }} - ${{ matrix.stability }}
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v7
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          coverage: none
+
+      - name: Install dependencies
+        run: |
+          composer require --dev "laravel/framework:^${{ matrix.laravel }}.0" "orchestra/testbench:^${{ matrix.testbench }}.0" --no-update --no-interaction
+          composer update --${{ matrix.stability }} --prefer-dist --no-interaction --no-progress
+
+      - name: Install the Laravel AI SDK
+        if: matrix.php != 8.2
+        run: composer require --dev "laravel/ai:^1.0" --no-interaction --no-progress
+
+      - name: Execute tests
+        run: vendor/bin/phpunit
